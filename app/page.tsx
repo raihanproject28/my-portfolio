@@ -244,11 +244,11 @@ export default function Home() {
             </div>
 
             <div>
-              <label className="mb-2 block text-sm text-zinc-300">Slogan</label>
+              <label className="mb-2 block text-sm text-zinc-300">Password</label>
               <input
                 type="text"
-                value={messageSlogan}
-                onChange={(e) => setMessageSlogan(e.target.value)}
+                value={messagePassword}
+                onChange={(e) => setMessagePassword(e.target.value)}
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition duration-300 focus:border-blue-400"
               />
             </div>
