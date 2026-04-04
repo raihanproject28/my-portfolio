@@ -5,6 +5,7 @@ import { useState } from "react";
 type SavedMessage = {
   email: string;
   phone: string;
+  slogan: string;
   message: string;
   createdAt: string;
 };
@@ -13,15 +14,18 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
+  const [slogan, setSlogan] = useState("");
 
   const [messageEmail, setMessageEmail] = useState("");
   const [messagePhone, setMessagePhone] = useState("");
+  const [messageSlogan, setMessageSlogan] = useState("");
   const [messageText, setMessageText] = useState("");
   const [savedItems, setSavedItems] = useState<SavedMessage[]>([]);
 
   const handleLoginDemo = () => {
     setMessageEmail(email);
     setMessagePhone(phone);
+    setMessageSlogan(slogan);
 
     const target = document.getElementById("message-form");
     if (target) {
@@ -30,14 +34,15 @@ export default function Home() {
   };
 
   const handleSaveMessage = () => {
-    if (!messageEmail || !messagePhone || !messageText) {
-      alert("Isi email, nomor HP, dan pesan dulu ya.");
+    if (!messageEmail || !messagePhone || !messageSlogan || !messageText) {
+      alert("Isi email, nomor HP, slogan, dan pesan dulu ya.");
       return;
     }
 
     const newItem: SavedMessage = {
       email: messageEmail,
       phone: messagePhone,
+      slogan: messageSlogan,
       message: messageText,
       createdAt: new Date().toLocaleString(),
     };
@@ -143,8 +148,8 @@ export default function Home() {
             </p>
             <h2 className="mt-4 text-4xl font-bold">Login Demo UI</h2>
             <p className="mx-auto mt-4 max-w-2xl text-zinc-400">
-              Setelah klik tombol, user diarahkan ke form kirim pesan. Email dan
-              nomor HP akan ikut terbawa.
+              Setelah klik tombol, user diarahkan ke form kirim pesan. Email,
+              nomor HP, dan slogan akan ikut terbawa.
             </p>
           </div>
 
@@ -182,6 +187,17 @@ export default function Home() {
               />
             </div>
 
+            <div>
+              <label className="mb-2 block text-sm text-zinc-300">Slogan</label>
+              <input
+                type="text"
+                placeholder="Contoh: Web cepat & modern"
+                value={slogan}
+                onChange={(e) => setSlogan(e.target.value)}
+                className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition duration-300 placeholder:text-zinc-500 focus:border-orange-400"
+              />
+            </div>
+
             <button
               type="button"
               onClick={handleLoginDemo}
@@ -201,7 +217,8 @@ export default function Home() {
             </p>
             <h2 className="mt-4 text-4xl font-bold">Kirimkan Pesan Anda</h2>
             <p className="mx-auto mt-4 max-w-2xl text-zinc-400">
-              Email dan nomor HP dari form sebelumnya akan muncul di sini.
+              Email, nomor HP, dan slogan dari form sebelumnya akan muncul di
+              sini.
             </p>
           </div>
 
@@ -223,6 +240,16 @@ export default function Home() {
                 value={messagePhone}
                 onChange={(e) => setMessagePhone(e.target.value)}
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition duration-300 focus:border-orange-400"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm text-zinc-300">Slogan</label>
+              <input
+                type="text"
+                value={messageSlogan}
+                onChange={(e) => setMessageSlogan(e.target.value)}
+                className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition duration-300 focus:border-blue-400"
               />
             </div>
 
@@ -273,9 +300,26 @@ export default function Home() {
                   key={index}
                   className="rounded-2xl border border-white/10 bg-white/5 p-6"
                 >
-                  <p><span className="font-semibold text-blue-300">Email:</span> {item.email}</p>
-                  <p><span className="font-semibold text-orange-300">Nomor HP:</span> {item.phone}</p>
-                  <p><span className="font-semibold text-white">Pesan:</span> {item.message}</p>
+                  <p>
+                    <span className="font-semibold text-blue-300">Email:</span>{" "}
+                    {item.email}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-orange-300">
+                      Nomor HP:
+                    </span>{" "}
+                    {item.phone}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-yellow-300">
+                      Slogan:
+                    </span>{" "}
+                    {item.slogan}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-white">Pesan:</span>{" "}
+                    {item.message}
+                  </p>
                   <p className="mt-2 text-sm text-zinc-500">{item.createdAt}</p>
                 </div>
               ))}
