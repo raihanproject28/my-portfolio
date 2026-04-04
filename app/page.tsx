@@ -312,9 +312,9 @@ export default function Home() {
                   </p>
                   <p>
                     <span className="font-semibold text-yellow-300">
-                      Slogan:
+                      Password:
                     </span>{" "}
-                    {item.slogan}
+                    {item.Password}
                   </p>
                   <p>
                     <span className="font-semibold text-white">Pesan:</span>{" "}
