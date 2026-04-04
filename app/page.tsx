@@ -1,65 +1,7 @@
-"use client";
-import { useState } from 'react';
-
 export default function Home() {
-  const [showLogin, setShowLogin] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [loginData, setLoginData] = useState({ email: '', password: '' });
-  const [messageData, setMessageData] = useState({ name: '', email: '', message: '' });
-  const [loginError, setLoginError] = useState('');
-
-  // Handle login
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Simulasi validasi login (bisa diganti dengan API nanti)
-    if (loginData.email && loginData.password) {
-      // Simpan data login ke localStorage
-      localStorage.setItem('userLogin', JSON.stringify({
-        email: loginData.email,
-        password: loginData.password,
-        timestamp: new Date().toISOString()
-      }));
-      
-      setIsLoggedIn(true);
-      setShowLogin(false);
-      setLoginError('');
-      alert('Login berhasil! Sekarang Anda bisa kirim pesan.');
-    } else {
-      setLoginError('Email dan password harus diisi!');
-    }
-  };
-
-  // Handle kirim pesan
-  const handleSendMessage = (e) => {
-    e.preventDefault();
-    if (messageData.name && messageData.email && messageData.message) {
-      // Simpan data pesan ke localStorage
-      const messages = JSON.parse(localStorage.getItem('userMessages') || '[]');
-      messages.push({
-        ...messageData,
-        timestamp: new Date().toISOString(),
-        loginEmail: loginData.email
-      });
-      localStorage.setItem('userMessages', JSON.stringify(messages));
-      
-      alert('Pesan berhasil dikirim! Terima kasih.');
-      setMessageData({ name: '', email: '', message: '' });
-    } else {
-      alert('Semua field harus diisi!');
-    }
-  };
-
-  // Fungsi untuk melihat data yang tersimpan (untuk developer)
-  const viewStoredData = () => {
-    const loginData = localStorage.getItem('userLogin');
-    const messages = localStorage.getItem('userMessages');
-    console.log('Login Data:', loginData);
-    console.log('Messages:', messages);
-    alert('Cek console browser untuk melihat data yang tersimpan!');
-  };
-
   return (
     <main className="min-h-screen overflow-x-hidden bg-black text-white">
+      {/* HERO */}
       <section className="relative flex min-h-screen items-center justify-center px-6">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.18),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(249,115,22,0.14),transparent_30%)]" />
         <div className="absolute left-10 top-24 h-40 w-40 rounded-full bg-blue-500/20 blur-3xl animate-floatSlow" />
@@ -84,37 +26,20 @@ export default function Home() {
               putih, biru, dan orange dengan animasi halus sejak halaman dibuka.
             </p>
 
-            {!isLoggedIn ? (
-              <div className="animate-fadeUpDelay3 mt-10 flex flex-wrap justify-center gap-4 lg:justify-start">
-                <button
-                  onClick={() => setShowLogin(true)}
-                  className="rounded-full bg-gradient-to-r from-blue-500 to-orange-500 px-7 py-3 font-semibold text-white transition duration-300 hover:scale-105 shadow-lg hover:shadow-2xl"
-                >
-                  Login untuk Kirim Pesan
-                </button>
-                <a
-                  href="#projects"
-                  className="rounded-full bg-white px-7 py-3 font-semibold text-black transition duration-300 hover:scale-105 hover:bg-orange-400 hover:text-white"
-                >
-                  Lihat Project
-                </a>
-              </div>
-            ) : (
-              <div className="animate-fadeUpDelay3 mt-10 flex flex-wrap justify-center gap-4 lg:justify-start">
-                <button
-                  onClick={() => setShowLogin(false)}
-                  className="rounded-full bg-green-500/80 px-7 py-3 font-semibold text-white transition duration-300 hover:scale-105 hover:bg-green-400"
-                >
-                  ✅ Sudah Login - Kirim Pesan
-                </button>
-                <button
-                  onClick={viewStoredData}
-                  className="rounded-full bg-purple-500/80 px-5 py-3 font-semibold text-white text-sm transition duration-300 hover:scale-105"
-                >
-                  Lihat Data
-                </button>
-              </div>
-            )}
+            <div className="animate-fadeUpDelay3 mt-10 flex flex-wrap justify-center gap-4 lg:justify-start">
+              <a
+                href="#projects"
+                className="rounded-full bg-white px-7 py-3 font-semibold text-black transition duration-300 hover:scale-105 hover:bg-orange-400 hover:text-white"
+              >
+                Lihat Project
+              </a>
+              <a
+                href="#login-demo"
+                className="rounded-full border border-blue-400 px-7 py-3 font-semibold text-white transition duration-300 hover:scale-105 hover:bg-blue-500 hover:border-blue-500"
+              >
+                Lihat Form Demo
+              </a>
+            </div>
 
             <div className="animate-fadeUpDelay4 mt-10 flex items-center justify-center gap-8 text-sm text-zinc-400 lg:justify-start">
               <div>
@@ -131,64 +56,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          {/* Form Login Modal */}
-          {showLogin && (
-            <div className="animate-scaleIn fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-              <div className="w-full max-w-md rounded-3xl bg-zinc-950/90 border border-white/20 p-8 backdrop-blur-xl shadow-2xl">
-                <div className="mb-6 flex items-center justify-between">
-                  <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-orange-400 bg-clip-text text-transparent">
-                    Login
-                  </h3>
-                  <button
-                    onClick={() => setShowLogin(false)}
-                    className="text-2xl hover:text-white"
-                  >
-                    ×
-                  </button>
-                </div>
-                
-                <form onSubmit={handleLogin} className="space-y-4">
-                  <div>
-                    <label className="mb-2 block text-sm font-medium text-zinc-300">Email</label>
-                    <input
-                      type="email"
-                      value={loginData.email}
-                      onChange={(e) => setLoginData({...loginData, email: e.target.value})}
-                      className="w-full rounded-2xl border border-white/20 bg-white/5 px-4 py-3 text-white placeholder-zinc-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/50"
-                      placeholder="Masukkan email Anda"
-                      required
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="mb-2 block text-sm font-medium text-zinc-300">Password</label>
-                    <input
-                      type="password"
-                      value={loginData.password}
-                      onChange={(e) => setLoginData({...loginData, password: e.target.value})}
-                      className="w-full rounded-2xl border border-white/20 bg-white/5 px-4 py-3 text-white placeholder-zinc-400 focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/50"
-                      placeholder="Masukkan password"
-                      required
-                    />
-                  </div>
-                  
-                  {loginError && (
-                    <p className="rounded-xl bg-red-500/20 border border-red-500/30 p-3 text-sm text-red-300">
-                      {loginError}
-                    </p>
-                  )}
-                  
-                  <button
-                    type="submit"
-                    className="w-full rounded-3xl bg-gradient-to-r from-blue-500 to-orange-500 px-6 py-3 font-semibold text-white shadow-xl hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:from-blue-600 hover:to-orange-600"
-                  >
-                    Masuk
-                  </button>
-                </form>
-              </div>
-            </div>
-          )}
 
           <div className="animate-scaleIn relative mx-auto w-full max-w-xl">
             <div className="absolute -inset-1 rounded-[32px] bg-gradient-to-br from-blue-500 via-transparent to-orange-500 opacity-60 blur-xl" />
@@ -243,70 +110,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Form Kirim Pesan - Muncul setelah login */}
-      {isLoggedIn && (
-        <section className="px-6 py-24 bg-zinc-950/50 border-t border-white/10">
-          <div className="mx-auto max-w-2xl">
-            <div className="text-center mb-12">
-              <p className="text-sm uppercase tracking-[0.3em] text-green-400">
-                Kirim Pesan
-              </p>
-              <h2 className="mt-4 text-4xl font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">
-                Pesan Anda untuk Raihan
-              </h2>
-            </div>
-
-            <form onSubmit={handleSendMessage} className="space-y-6">
-              <div>
-                <label className="mb-3 block text-sm font-medium text-zinc-300">Nama Lengkap</label>
-                <input
-                  type="text"
-                  value={messageData.name}
-                  onChange={(e) => setMessageData({...messageData, name: e.target.value})}
-                  className="w-full rounded-3xl border border-white/20 bg-white/5 px-6 py-4 text-white placeholder-zinc-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/50 text-lg"
-                  placeholder="Nama Anda"
-                  required
-                />
-              </div>
-              
-              <div>
-                <label className="mb-3 block text-sm font-medium text-zinc-300">Email</label>
-                <input
-                  type="email"
-                  value={messageData.email}
-                  onChange={(e) => setMessageData({...messageData, email: e.target.value})}
-                  className="w-full rounded-3xl border border-white/20 bg-white/5 px-6 py-4 text-white placeholder-zinc-400 focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/50 text-lg"
-                  placeholder="Email Anda"
-                  required
-                />
-              </div>
-              
-              <div>
-                <label className="mb-3 block text-sm font-medium text-zinc-300">Pesan</label>
-                <textarea
-                  rows={6}
-                  value={messageData.message}
-                  onChange={(e) => setMessageData({...messageData, message: e.target.value})}
-                  className="w-full rounded-3xl border border-white/20 bg-white/5 px-6 py-4 text-white placeholder-zinc-400 focus:border-green-400 focus:outline-none focus:ring-2 focus:ring-green-400/50 text-lg resize-vertical"
-                  placeholder="Ceritakan apa yang ingin Anda diskusikan..."
-                  required
-                />
-              </div>
-              
-              <button
-                type="submit"
-                className="w-full rounded-3xl bg-gradient-to-r from-green-500 to-blue-600 px-8 py-6 font-bold text-xl text-white shadow-2xl hover:scale-105 transition-all duration-300 hover:shadow-3xl hover:from-green-600 hover:to-blue-700"
-              >
-                📤 Kirim Pesan
-              </button>
-            </form>
-          </div>
-        </section>
-      )}
-
-      {/* Sisa section tetap sama */}
+      {/* ABOUT */}
       <section id="about" className="px-6 py-24">
-        {/* ... content about sama seperti sebelumnya ... */}
         <div className="mx-auto max-w-6xl">
           <div className="mb-12 text-center">
             <p className="text-sm uppercase tracking-[0.3em] text-orange-400">
@@ -346,9 +151,217 @@ export default function Home() {
         </div>
       </section>
 
+      {/* PROJECTS */}
       <section id="projects" className="px-6 py-24">
-        {/* ... content projects sama seperti sebelumnya ... */}
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-12 text-center">
+            <p className="text-sm uppercase tracking-[0.3em] text-blue-400">
+              Project
+            </p>
+            <h2 className="mt-4 text-4xl font-bold">Contoh Tampilan Project</h2>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-3">
+            <div className="group rounded-3xl border border-white/10 bg-zinc-950 p-6 transition duration-300 hover:-translate-y-2 hover:border-blue-400/40">
+              <div className="mb-5 h-44 rounded-2xl bg-gradient-to-br from-blue-500/30 to-black" />
+              <h3 className="text-xl font-semibold">Portfolio Website</h3>
+              <p className="mt-3 leading-7 text-zinc-400">
+                Website portofolio dengan animasi halus, layout modern, dan
+                warna premium.
+              </p>
+              <div className="mt-5 inline-block rounded-full bg-blue-500/10 px-4 py-2 text-sm text-blue-300">
+                Next.js
+              </div>
+            </div>
+
+            <div className="group rounded-3xl border border-white/10 bg-zinc-950 p-6 transition duration-300 hover:-translate-y-2 hover:border-orange-400/40">
+              <div className="mb-5 h-44 rounded-2xl bg-gradient-to-br from-orange-500/30 to-black" />
+              <h3 className="text-xl font-semibold">Landing Page</h3>
+              <p className="mt-3 leading-7 text-zinc-400">
+                Landing page promosi produk atau jasa dengan visual yang kuat dan
+                CTA yang jelas.
+              </p>
+              <div className="mt-5 inline-block rounded-full bg-orange-500/10 px-4 py-2 text-sm text-orange-300">
+                UI Design
+              </div>
+            </div>
+
+            <div className="group rounded-3xl border border-white/10 bg-zinc-950 p-6 transition duration-300 hover:-translate-y-2 hover:border-white/20">
+              <div className="mb-5 h-44 rounded-2xl bg-gradient-to-br from-white/20 to-black" />
+              <h3 className="text-xl font-semibold">Mini Dashboard</h3>
+              <p className="mt-3 leading-7 text-zinc-400">
+                Konsep dashboard sederhana dengan card, statistik, dan komposisi
+                warna yang elegan.
+              </p>
+              <div className="mt-5 inline-block rounded-full bg-white/10 px-4 py-2 text-sm text-zinc-300">
+                Prototype
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
+      {/* LOGIN DEMO UI ONLY */}
+      <section id="login-demo" className="px-6 py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-12 text-center">
+            <p className="text-sm uppercase tracking-[0.3em] text-orange-400">
+              Demo Form
+            </p>
+            <h2 className="mt-4 text-4xl font-bold">Prototype Login UI</h2>
+            <p className="mx-auto mt-4 max-w-2xl text-zinc-400">
+              Ini hanya contoh tampilan antarmuka. Tidak terhubung ke login asli
+              dan tidak menyimpan password.
+            </p>
+          </div>
+
+          <div className="grid items-center gap-10 lg:grid-cols-2">
+            <div className="rounded-[32px] border border-white/10 bg-white/5 p-8 backdrop-blur-xl">
+              <p className="mb-3 text-sm uppercase tracking-[0.3em] text-blue-400">
+                Welcome Back
+              </p>
+              <h3 className="text-3xl font-bold">Masuk ke Dashboard</h3>
+              <p className="mt-4 leading-7 text-zinc-400">
+                Gunakan tampilan ini sebagai prototipe untuk halaman akses user,
+                waiting list, atau area member.
+              </p>
+
+              <div className="mt-8 space-y-4">
+                <button className="w-full rounded-2xl bg-white px-5 py-3 font-semibold text-black transition duration-300 hover:scale-[1.02] hover:bg-zinc-100">
+                  Masuk dengan Google
+                </button>
+
+                <button className="w-full rounded-2xl bg-blue-600 px-5 py-3 font-semibold text-white transition duration-300 hover:scale-[1.02] hover:bg-blue-500">
+                  Masuk dengan Facebook
+                </button>
+
+                <button className="w-full rounded-2xl bg-gradient-to-r from-pink-500 via-orange-500 to-yellow-400 px-5 py-3 font-semibold text-white transition duration-300 hover:scale-[1.02] hover:opacity-95">
+                  Masuk dengan Instagram
+                </button>
+              </div>
+
+              <div className="my-7 flex items-center gap-4">
+                <div className="h-px flex-1 bg-white/10" />
+                <span className="text-sm text-zinc-500">atau</span>
+                <div className="h-px flex-1 bg-white/10" />
+              </div>
+
+              <form className="space-y-4">
+                <div>
+                  <label className="mb-2 block text-sm text-zinc-300">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="nama@email.com"
+                    className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition duration-300 placeholder:text-zinc-500 focus:border-blue-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-sm text-zinc-300">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="Masukkan password"
+                    className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition duration-300 placeholder:text-zinc-500 focus:border-orange-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-sm text-zinc-300">
+                    Nomor HP
+                  </label>
+                  <input
+                    type="tel"
+                    placeholder="+62 8xx xxxx xxxx"
+                    className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition duration-300 placeholder:text-zinc-500 focus:border-blue-400"
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  className="w-full rounded-2xl bg-gradient-to-r from-blue-500 to-orange-500 px-5 py-3 font-semibold text-white transition duration-300 hover:scale-[1.02]"
+                >
+                  Login Demo
+                </button>
+              </form>
+            </div>
+
+            <div className="relative">
+              <div className="absolute -inset-2 rounded-[32px] bg-gradient-to-br from-blue-500/20 to-orange-500/20 blur-2xl" />
+              <div className="relative rounded-[32px] border border-white/10 bg-zinc-950 p-8">
+                <p className="text-sm uppercase tracking-[0.3em] text-blue-400">
+                  UI Preview
+                </p>
+                <h3 className="mt-4 text-3xl font-bold">
+                  Tampilan Elegan dan Modern
+                </h3>
+                <p className="mt-4 leading-7 text-zinc-400">
+                  Form ini cocok dipakai sebagai contoh desain akses pengguna,
+                  area member, atau demo onboarding. Kalau tujuanmu adalah
+                  menerima pesan dari pengunjung, sebaiknya kita ganti menjadi
+                  form kontak biasa.
+                </p>
+
+                <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                  <div className="rounded-2xl border border-blue-500/20 bg-blue-500/10 p-5">
+                    <p className="text-sm text-blue-300">Theme</p>
+                    <h4 className="mt-2 text-lg font-semibold">
+                      Dark + Accent
+                    </h4>
+                  </div>
+                  <div className="rounded-2xl border border-orange-500/20 bg-orange-500/10 p-5">
+                    <p className="text-sm text-orange-300">Experience</p>
+                    <h4 className="mt-2 text-lg font-semibold">
+                      Smooth Interaction
+                    </h4>
+                  </div>
+                  <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                    <p className="text-sm text-zinc-400">Use Case</p>
+                    <h4 className="mt-2 text-lg font-semibold">Demo UI</h4>
+                  </div>
+                  <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                    <p className="text-sm text-zinc-400">Alternative</p>
+                    <h4 className="mt-2 text-lg font-semibold">Contact Form</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CONTACT */}
       <section id="contact" className="px-6 py-24">
-        <div className="mx-auto max-w-4xl rounded-[32px] border border-white/10 bg
+        <div className="mx-auto max-w-4xl rounded-[32px] border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.03] p-10 text-center backdrop-blur-sm">
+          <p className="text-sm uppercase tracking-[0.3em] text-orange-400">
+            Kontak
+          </p>
+          <h2 className="mt-4 text-4xl font-bold">Mari Bangun Sesuatu yang Keren</h2>
+          <p className="mx-auto mt-5 max-w-2xl leading-8 text-zinc-400">
+            Kalau kamu ingin menjadikan prototipe ini sebagai portofolio utama,
+            tinggal ganti isi teks, project, dan kontak dengan data kamu sendiri.
+          </p>
+
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <a
+              href="mailto:raihanproject28@gmail.com"
+              className="rounded-full bg-orange-500 px-7 py-3 font-semibold text-white transition duration-300 hover:scale-105 hover:bg-orange-400"
+            >
+              Email Saya
+            </a>
+            <a
+              href="https://github.com/raihanproject28"
+              target="_blank"
+              className="rounded-full border border-blue-400 px-7 py-3 font-semibold text-white transition duration-300 hover:scale-105 hover:bg-blue-500 hover:border-blue-500"
+            >
+              GitHub
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
