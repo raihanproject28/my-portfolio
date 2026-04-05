@@ -12,13 +12,15 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#f3f3f3] text-black">
-      <section className="relative overflow-hidden px-6 py-24 md:py-32">
-        <div className="absolute left-0 top-0 h-52 w-52 rounded-br-full border-r-4 border-b-4 border-black/20" />
-        <div className="absolute right-8 top-8 flex flex-col gap-3 opacity-70">
-          <div className="h-10 w-10 rotate-12 border-4 border-black/40" />
-          <div className="h-8 w-8 -rotate-12 border-4 border-black/60" />
-          <div className="h-12 w-12 rotate-6 border-4 border-black/20" />
+    <main className="min-h-screen bg-[#f3f3f3] pt-24 text-black">
+      {/* HERO */}
+      <section className="relative overflow-hidden px-6 py-20 md:py-28">
+        <div className="absolute left-0 top-0 h-52 w-52 rounded-br-full border-b-4 border-r-4 border-black/20" />
+
+        <div className="absolute right-6 top-10 hidden flex-col gap-3 opacity-70 md:flex">
+          <div className="h-14 w-14 rotate-12 border-[3px] border-black/50" />
+          <div className="ml-10 h-10 w-10 -rotate-12 border-[3px] border-black/70" />
+          <div className="ml-4 h-16 w-16 rotate-6 border-[3px] border-black/20" />
         </div>
 
         <div className="mx-auto max-w-6xl">
@@ -66,6 +68,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* SERVICES */}
       <section id="services" className="px-6 py-16">
         <div className="mx-auto max-w-6xl">
           <div className="mb-12 text-center">
@@ -78,7 +81,7 @@ export default function Home() {
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">
-            <div className="group rounded-3xl bg-white p-8 shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl">
+            <div className="rounded-3xl bg-white p-8 shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl">
               <div className="mb-6 inline-block rounded-full bg-black px-5 py-2 text-xl font-bold text-white">
                 JASA <span className="text-[#f2b400]">DESAIN</span>
               </div>
@@ -94,7 +97,7 @@ export default function Home() {
               </ul>
             </div>
 
-            <div className="group rounded-3xl bg-white p-8 shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl">
+            <div className="rounded-3xl bg-white p-8 shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl">
               <div className="mb-6 inline-block rounded-full bg-black px-5 py-2 text-xl font-bold text-white">
                 JASA <span className="text-[#f2b400]">EDITING</span>
               </div>
@@ -113,6 +116,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* STICKER */}
       <section className="bg-white px-6 py-16">
         <div className="mx-auto max-w-6xl">
           <div className="mb-12 text-center">
@@ -150,6 +154,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* WHY US */}
       <section className="px-6 py-16">
         <div className="mx-auto max-w-6xl">
           <div className="mb-12 text-center">
@@ -192,6 +197,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* CONTACT */}
       <section id="contact" className="bg-black px-6 py-16 text-white">
         <div className="mx-auto max-w-5xl rounded-3xl border border-white/10 bg-[#121212] p-10 text-center shadow-xl">
           <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#f2b400]">
