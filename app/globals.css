@@ -146,3 +146,8 @@ body {
 .animate-progressLoad {
   animation: progressLoad 2s ease forwards;
 }
+body {
+  background-color: #f5f5f5;
+  background-image: radial-gradient(#e5e5e5 1px, transparent 1px);
+  background-size: 20px 20px;
+}
